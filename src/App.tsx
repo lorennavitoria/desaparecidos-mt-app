@@ -1,13 +1,19 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Suspense, lazy } from 'react';
+
+const Home = lazy(() => import('./pages/Home'));
+const Details = lazy(() => import('./pages/Details'));
 
 function App() {
   return (
-    <div className="h-screen flex items-center justify-center bg-gray-100">
-      <h1 className="text-3xl font-bold text-blue-500">Tailwind funcionando!!</h1>
-    </div>
+    <BrowserRouter>
+      <Suspense fallback={<div>Carregando...</div>}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/details/:id" element={<Details />} />
+        </Routes>
+      </Suspense>
+    </BrowserRouter>
   );
 }
 
