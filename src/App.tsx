@@ -1,16 +1,14 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Suspense, lazy } from 'react';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Suspense, lazy } from "react";
 
-const Home = lazy(() => import('./pages/Home'));
-const Details = lazy(() => import('./pages/Details'));
+const TestApi = lazy(() => import("./pages/TestApi.tsx"));
 
 function App() {
   return (
     <BrowserRouter>
       <Suspense fallback={<div>Carregando...</div>}>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/details/:id" element={<Details />} />
+          <Route path="/" element={<TestApi />} />
         </Routes>
       </Suspense>
     </BrowserRouter>
