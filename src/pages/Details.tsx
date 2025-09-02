@@ -18,7 +18,7 @@ const Details = () => {
   const [enviando, setEnviando] = useState(false);
   const [erroEnvio, setErroEnvio] = useState<string | null>(null);
   const [sucessoEnvio, setSucessoEnvio] = useState<string | null>(null);
-
+  const [vivo, setVivo] = useState("");
   useEffect(() => {
     if (!id) return;
 
@@ -28,6 +28,8 @@ const Details = () => {
       try {
         const res = await buscarPessoaPorId(id);
         setPerson(res.data);
+      setVivo(res.data.vivo ? "Localizada" : "Desaparecida"); 
+    
       } catch (err) {
         console.error(err);
         setError("Erro ao carregar detalhes da pessoa.");
@@ -96,15 +98,16 @@ const Details = () => {
         />
       )}
 
-      <p
-        className={`font-bold mb-2 ${
-          person.status === "Desaparecida" ? "text-red-500" : "text-green-500"
-        }`}
-      >
-        Status: {person.status}
-      </p>
-      {person.idade && <p>Idade: {person.idade}</p>}
-      {person.sexo && <p>Sexo: {person.sexo}</p>}
+<p
+  className={`font-bold mb-2 px-2 py-1 inline-block rounded ${
+    vivo === "Desaparecida" ? "bg-red-100 text-red-600" : "bg-green-100 text-green-600"
+  }`}
+>
+  {vivo}
+</p>
+<p className="mb-2">Idade: {person.idade ?? "N/A"}</p>
+
+{person.sexo && <p>Sexo: {person.sexo ?? "N/A"}</p>}
 
       {/* Formulário de envio de informações */}
       <div className="mt-6 border-t pt-4">
