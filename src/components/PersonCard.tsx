@@ -13,9 +13,9 @@ const PersonCard = ({ person }: PersonCardProps) => {
       className="border p-2 rounded shadow cursor-pointer hover:shadow-lg transition"
       onClick={() => navigate(`/details/${person.id}`)}
     >
-      {person.foto && (
+      {person.urlFoto && (
         <img
-          src={person.foto}
+          src={person.urlFoto}
           alt={person.nome}
           className="mb-2 w-full h-48 object-cover rounded"
         />

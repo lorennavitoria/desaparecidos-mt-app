@@ -41,8 +41,25 @@ export const verificarDuplicidade = (payload: {
   api.post("/v1/ocorrencias/delegacia-digital/verificar-duplicidade", payload);
 
 
-export const enviarInformacao = (formData: FormData) =>
-  api.post("/v1/ocorrencias/informacoes-desaparecido", formData);
+export const enviarInformacao = async (
+  ocoId: number,
+  informacao: string,
+  data: string, // formato yyyy-MM-dd
+  descricao?: string,
+  foto?: File
+) => {
+  const formData = new FormData();
+  
+  if (foto) formData.append("files", foto); // arquivos enviados via multipart
+  // A API aceita descricao como query, mas você pode manter aqui se quiser
+  const params = new URLSearchParams();
+  params.append("ocoId", ocoId.toString());
+  params.append("informacao", informacao);
+  params.append("data", data);
+  if (descricao) params.append("descricao", descricao);
+
+  return api.post(`/v1/ocorrencias/informacoes-desaparecido?${params.toString()}`, formData);
+};
 
 
 export const criarOcorrenciaDelegaciaDigital = (payload: any) =>
