@@ -1,19 +1,23 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import { buscarPessoaPorId, enviarInformacao } from "../services/api";
 import type { Person } from "../types";
 
 const Details = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [person, setPerson] = useState<Person | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   // Estados do formulário
   const [informacao, setInformacao] = useState("");
-  const [localizacao, setLocalizacao] = useState("");
+  const [data, setData] = useState(new Date().toISOString().split("T")[0]); // yyyy-MM-dd
+  const [descricao, setDescricao] = useState("");
   const [foto, setFoto] = useState<File | null>(null);
   const [enviando, setEnviando] = useState(false);
+  const [erroEnvio, setErroEnvio] = useState<string | null>(null);
+  const [sucessoEnvio, setSucessoEnvio] = useState<string | null>(null);
 
   useEffect(() => {
     if (!id) return;
@@ -35,35 +39,40 @@ const Details = () => {
     fetchPerson();
   }, [id]);
 
-const handleEnviarInformacao = async () => {
-  if (!person || !person.ultimaOcorrencia) return;
+  const handleEnviarInformacao = async () => {
+    if (!person || !person.ultimaOcorrencia) return;
 
-  const ocoId = person.ultimaOcorrencia.ocoId;
-  const dataHoje = new Date().toISOString().split("T")[0]; // yyyy-MM-dd
+    if (!informacao || !data || !descricao) {
+      setErroEnvio("Preencha todos os campos obrigatórios.");
+      return;
+    }
 
-  setEnviando(true);
-  try {
-    await enviarInformacao(
-      ocoId,
-      informacao,
-      dataHoje,
-      undefined, // descricao opcional
-      foto ?? undefined
-    );
-    alert("Informação enviada com sucesso!");
-    setInformacao("");
-    setLocalizacao("");
-    setFoto(null);
-  } catch (err) {
-    console.error(err);
-    alert("Erro ao enviar informação.");
-  } finally {
-    setEnviando(false);
-  }
-};
+    const ocoId = person.ultimaOcorrencia.ocoId;
 
+    setEnviando(true);
+    setErroEnvio(null);
+    setSucessoEnvio(null);
 
-
+    try {
+      await enviarInformacao(
+        ocoId,
+        informacao,
+        data,
+        descricao || undefined,
+        foto || undefined
+      );
+      setSucessoEnvio("Informação enviada com sucesso!");
+      setInformacao("");
+      setDescricao("");
+      setData(new Date().toISOString().split("T")[0]);
+      setFoto(null);
+    } catch (err) {
+      console.error(err);
+      setErroEnvio("Erro ao enviar informação.");
+    } finally {
+      setEnviando(false);
+    }
+  };
 
   if (loading) return <div>Carregando...</div>;
   if (error) return <div className="text-red-500">{error}</div>;
@@ -71,6 +80,12 @@ const handleEnviarInformacao = async () => {
 
   return (
     <div className="p-4 max-w-4xl mx-auto">
+      <button
+        onClick={() => navigate("/")}
+        className="mb-4 px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded transition"
+      >
+        ← Voltar
+      </button>
       <h1 className="text-2xl font-bold mb-4">{person.nome}</h1>
 
       {person.urlFoto && (
@@ -95,8 +110,11 @@ const handleEnviarInformacao = async () => {
       <div className="mt-6 border-t pt-4">
         <h2 className="text-xl font-bold mb-2">Registrar nova informação</h2>
 
+        {erroEnvio && <p className="text-red-500 mb-2">{erroEnvio}</p>}
+        {sucessoEnvio && <p className="text-green-500 mb-2">{sucessoEnvio}</p>}
+
         <div className="mb-2">
-          <label className="block mb-1">Informação</label>
+          <label className="block mb-1">Informação *</label>
           <textarea
             value={informacao}
             onChange={(e) => setInformacao(e.target.value)}
@@ -106,11 +124,21 @@ const handleEnviarInformacao = async () => {
         </div>
 
         <div className="mb-2">
-          <label className="block mb-1">Localização</label>
+          <label className="block mb-1">Data *</label>
+          <input
+            type="date"
+            value={data}
+            onChange={(e) => setData(e.target.value)}
+            className="w-full border rounded p-2"
+          />
+        </div>
+
+        <div className="mb-2">
+          <label className="block mb-1">Descrição *</label>
           <input
             type="text"
-            value={localizacao}
-            onChange={(e) => setLocalizacao(e.target.value)}
+            value={descricao}
+            onChange={(e) => setDescricao(e.target.value)}
             className="w-full border rounded p-2"
           />
         </div>
@@ -126,7 +154,7 @@ const handleEnviarInformacao = async () => {
         <button
           onClick={handleEnviarInformacao}
           disabled={enviando}
-          className="bg-green-500 text-white px-4 py-2 rounded mt-2"
+          className="bg-green-500 text-white px-4 py-2 rounded mt-2 hover:bg-green-600 transition"
         >
           {enviando ? "Enviando..." : "Enviar informação"}
         </button>
