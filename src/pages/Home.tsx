@@ -7,7 +7,7 @@ import SearchBar from "../components/SearchBar";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import FilterBar from "../components/FilterBar";
 
 const Home = () => {
   const [people, setPeople] = useState<Person[]>([]);
@@ -16,6 +16,7 @@ const Home = () => {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
+  const [filtros, setFiltros] = useState({});
 
   const navigate = useNavigate();
 
@@ -24,23 +25,22 @@ const Home = () => {
     quantPessoasEncontradas: number;
   } | null>(null);
 
-  const fetchPeople = async (page: number = 0, nome: string = "") => {
-    setLoading(true);
-    setError(null);
-    try {
-      const filtros = nome ? { nome } : {};
-      const res = await buscarPessoasFiltro(filtros, page, 10);
-      setPeople(res.data.content || res.data);
-      setTotalPages(res.data.totalPages || 1);
-    } catch (err: unknown) {
-      console.error(err);
-      const msg = "Erro ao carregar pessoas.";
+const fetchPeople = async (page: number = 0, filtrosAtual: any = {}) => {
+  setLoading(true);
+  setError(null);
+  try {
+    const res = await buscarPessoasFiltro(filtrosAtual, page, 10);
+    setPeople(res.data.content || res.data);
+    setTotalPages(res.data.totalPages || 1);
+  } catch (err: unknown) {
+    console.error(err);
+    const msg = "Erro ao carregar pessoas.";
     setError(msg);
     toast.error(msg);
-    } finally {
-      setLoading(false);
-    }
-  };
+  } finally {
+    setLoading(false);
+  }
+};
 
   const fetchEstatisticas = async () => {
     try {
@@ -52,9 +52,16 @@ const Home = () => {
   }
   };
 
-  useEffect(() => {
-    fetchPeople(currentPage, search);
-  }, [currentPage, search]);
+  // Atualiza filtro e recarrega página 0
+const handleSearch = (novosFiltros: any) => {
+  setFiltros(novosFiltros);
+  setCurrentPage(0);
+};
+
+useEffect(() => {
+  fetchPeople(currentPage, filtros);
+}, [currentPage, filtros]);
+
 
    useEffect(() => {
     fetchEstatisticas();
@@ -84,9 +91,9 @@ const Home = () => {
         </div>
       )}
 
-      <div className="mb-6 flex justify-center">
-        <SearchBar value={search} onChange={setSearch} />
-      </div>
+    <div className="mb-6 flex justify-center">
+  <FilterBar onSearch={handleSearch} />
+</div>
 
       {loading && <p className="text-center">Carregando...</p>}
       {error && <p className="text-red-500 text-center">{error}</p>}
