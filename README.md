@@ -28,9 +28,30 @@
 
 
 
+### Dependências de Produção
+
+- @radix-ui/react-select
+- @radix-ui/react-separator
+- @tailwindcss/vite
+- axios
+- class-variance-authority
+- clsx
+- lucide-react
+- react
+- react-dom
+- react-icons
+- react-input-mask
+- react-router-dom
+- react-toastify
+- sonner
+- tailwind-merge
+- tailwindcss-animate
 
 
-⚠️ #Observação sobre o status de pessoas (Desaparecida / Localizada)
+
+
+
+### ⚠️Observação sobre o status de pessoas (Desaparecida / Localizada)
 
 O endpoint da API utilizado pelo sistema:
 https://abitus-api.geia.vip/v1/pessoas/aberto/filtro
