@@ -1,69 +1,21 @@
-# React + TypeScript + Vite
+# PROJETO PRÁTICO – IMPLEMENTAÇÃO FRONT-END
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+⚠️ Observação sobre o status de pessoas (Desaparecida / Localizada)
 
-Currently, two official plugins are available:
+O endpoint da API utilizado pelo sistema:
+https://abitus-api.geia.vip/v1/pessoas/aberto/filtro
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+possui uma limitação importante:
 
-## Expanding the ESLint configuration
+Ele não retorna no objeto de resposta um campo explícito que indique se uma pessoa está Desaparecida ou Localizada.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+🔧 Solução implementada no sistema
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Para contornar essa limitação, a aplicação define o status com base nos dados disponíveis:
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+Se o campo ultimaOcorrencia.dataLocalizacao estiver preenchido → a pessoa é tratada como Localizada ✅
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Caso contrário → tratada como Desaparecida ❌
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Essa solução não garante 100% de precisão, mas permite que o frontend exiba o status mesmo sem a informação explícita no objeto de resposta da API.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
