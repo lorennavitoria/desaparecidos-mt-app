@@ -10,6 +10,7 @@ import { toast } from "sonner"
 import { Card, CardContent } from "./ui/card"
 import { Badge } from "./ui/badge"
 import Pagination from "./Pagination"
+import logo from "../assets/images/layout_set_logo.png";
 
 const Home = () => {
   const [people, setPeople] = useState<Person[]>([])
@@ -85,11 +86,7 @@ const Home = () => {
   <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-4">
     
     <div className="flex items-center gap-4 text-center lg:text-left">
-      <img 
-        src="src/assets/images/layout_set_logo.png" 
-        alt="Logo Polícia Judiciária Civil" 
-        className="h-16 w-[220px] object-contain"
-      />
+      <img src={logo} alt="Logo Polícia Judiciária Civil" className="h-16 w-[220px] object-contain" />
       <div>
         <h1 className="font-bold text-xl lg:text-2xl">POLÍCIA JUDICIÁRIA CIVIL</h1>
         <p className="text-lg lg:text-xl font-semibold text-gray-300">ESTADO DE MATO GROSSO</p>
