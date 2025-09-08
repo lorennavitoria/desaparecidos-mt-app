@@ -3,8 +3,8 @@ import { Suspense, lazy } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Home = lazy(() => import("./pages/Home"));
-const Details = lazy(() => import("./pages/Details"));
+const Home = lazy(() => import("./components/home"));
+const Details = lazy(() => import("./components/details"));
 
 function App() {
   return (
