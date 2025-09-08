@@ -29,9 +29,22 @@ const Home = () => {
   const fetchPeople = async (page = 0, filtrosAtual: any = {}) => {
     setLoading(true)
     setError(null)
+
+// OBS: A API em https://abitus-api.geia.vip/v1/pessoas/aberto/filtro não retorna um campo explícito
+// indicando se a pessoa está "Desaparecida" ou "Localizada".  
+// Para contornar essa limitação, definimos o status manualmente aqui com base na presença de informações
+// da última ocorrência (`ultimaOcorrencia.dataLocalizacao`).  
+// Se `dataLocalizacao` estiver preenchida, consideramos "Localizada", caso contrário, "Desaparecida".  
+// Essa abordagem não é 100% precisa, mas permite exibir um status no frontend.
+
     try {
       const res = await buscarPessoasFiltro(filtrosAtual, page, 10)
-      setPeople(res.data.content || res.data)
+       const peopleData = res.data.content || res.data
+      const peopleWithStatus = peopleData.map((p: any) => ({
+      ...p,
+      status: p.ultimaOcorrencia?.dataLocalizacao ? "Localizada" : "Desaparecida",
+    }))
+      setPeople(peopleWithStatus)
       setTotalPages(res.data.totalPages || 1)
     } catch (err: unknown) {
       console.error(err)

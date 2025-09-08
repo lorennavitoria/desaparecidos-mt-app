@@ -44,6 +44,19 @@ const Details = () => {
           const infoRes = await buscarInformacoesDesaparecido(res.data.ultimaOcorrencia.ocoId)
           setInformacoes(infoRes.data)
         }
+
+// OBS: A API em https://abitus-api.geia.vip/v1/pessoas/aberto/filtro não retorna um campo explícito
+// indicando se a pessoa está "Desaparecida" ou "Localizada".  
+// Para contornar essa limitação, definimos o status manualmente aqui com base na presença de informações
+// da última ocorrência (`ultimaOcorrencia.dataLocalizacao`).  
+// Se `dataLocalizacao` estiver preenchida, consideramos "Localizada", caso contrário, "Desaparecida".  
+// Essa abordagem não é 100% precisa, mas permite exibir um status no frontend.
+
+        if (person) {
+  person.status = person.ultimaOcorrencia?.dataLocalizacao ? "Localizada" : "Desaparecida"
+  person.vivo = person.ultimaOcorrencia?.encontradoVivo ?? true
+}
+
       } catch (err: unknown) {
         console.error(err)
 
@@ -166,11 +179,12 @@ const Details = () => {
                   <div>
                     <h1 className="text-2xl font-bold mb-2">{person.nome}</h1>
                     <Badge
-                      variant={person.vivo ? "default" : "destructive"}
-                      className={person.vivo ? "bg-green-500 hover:bg-green-600" : ""}
-                    >
-                      {person.vivo ? "Localizada" : "Desaparecida"}
-                    </Badge>
+  variant={person.status === "Localizada" ? "default" : "destructive"}
+  className={person.status === "Localizada" ? "bg-green-500 hover:bg-green-600" : ""}
+>
+  {person.status}
+</Badge>
+
                   </div>
 
                   <Separator />
