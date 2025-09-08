@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams,useNavigate } from "react-router-dom";
-import { buscarPessoaPorId, enviarInformacao } from "../services/api";
+import { buscarPessoaPorId, enviarInformacao,buscarInformacoesDesaparecido } from "../services/api";
 import type { Person } from "../types";
 
 const Details = () => {

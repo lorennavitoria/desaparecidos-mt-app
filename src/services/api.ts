@@ -17,10 +17,6 @@ export const buscarPessoaPorId = (id: number | string) =>
   api.get(`/v1/pessoas/${id}`);
 
 
-export const buscarInformacoesDesaparecido = (ocoId: number) =>
-  api.get("/v1/ocorrencias/informacoes-desaparecido", {
-    params: { ocorrenciaId: ocoId },
-  });
 
 export const buscarMotivosOcorrencias = () =>
   api.get("/v1/ocorrencias/motivos");
@@ -28,17 +24,7 @@ export const buscarMotivosOcorrencias = () =>
 export const buscarEstatisticas = () =>
   api.get("/v1/pessoas/aberto/estatistico");
 
-export const buscarDadosDinamicos = () =>
-  api.get("/v1/pessoas/aberto/dinamico");
 
-export const verificarDuplicidade = (payload: {
-  nome: string;
-  mae: string;
-  cpf: string;
-  dataNascimento: string;
-  dataDesaparecimento: string;
-}) =>
-  api.post("/v1/ocorrencias/delegacia-digital/verificar-duplicidade", payload);
 
 
 export const enviarInformacao = async (
@@ -62,9 +48,6 @@ export const enviarInformacao = async (
 };
 
 
-export const criarOcorrenciaDelegaciaDigital = (payload: any) =>
-  api.post("/v1/ocorrencias/delegacia-digital", payload);
-
 export const login = (login: string, password: string) =>
   api.post("/v1/login", { login, password });
 
@@ -77,3 +60,33 @@ export const refreshToken = (refreshToken: string) =>
       },
     }
   );
+
+
+
+//USAR
+
+
+
+  export const buscarInformacoesDesaparecido = (ocoId: number) =>
+  api.get("/v1/ocorrencias/informacoes-desaparecido", {
+    params: { ocorrenciaId: ocoId },
+  });
+
+
+  export const buscarDadosDinamicos = () =>
+  api.get("/v1/pessoas/aberto/dinamico");
+
+
+export const verificarDuplicidade = (payload: {
+  nome: string;
+  mae: string;
+  cpf: string;
+  dataNascimento: string;
+  dataDesaparecimento: string;
+}) =>
+  api.post("/v1/ocorrencias/delegacia-digital/verificar-duplicidade", payload);
+
+
+
+export const criarOcorrenciaDelegaciaDigital = (payload: any) =>
+  api.post("/v1/ocorrencias/delegacia-digital", payload);

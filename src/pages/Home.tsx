@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { buscarPessoasFiltro } from "../services/api";
+import { buscarPessoasFiltro, buscarEstatisticas} from "../services/api";
 import type { Person } from "../types";
 import { FaUserAlt } from "react-icons/fa"; // ícone para pessoas sem foto
 import Pagination from "../components/Pagination";
@@ -15,6 +15,11 @@ const Home = () => {
   const [totalPages, setTotalPages] = useState(1);
 
   const navigate = useNavigate();
+
+   const [estatisticas, setEstatisticas] = useState<{
+    quantPessoasDesaparecidas: number;
+    quantPessoasEncontradas: number;
+  } | null>(null);
 
   const fetchPeople = async (page: number = 0, nome: string = "") => {
     setLoading(true);
@@ -32,15 +37,46 @@ const Home = () => {
     }
   };
 
+  const fetchEstatisticas = async () => {
+    try {
+      const res = await buscarEstatisticas();
+      setEstatisticas(res.data);
+    } catch (err) {
+      console.error("Erro ao buscar estatísticas", err);
+    }
+  };
+
   useEffect(() => {
     fetchPeople(currentPage, search);
   }, [currentPage, search]);
+
+   useEffect(() => {
+    fetchEstatisticas();
+  }, []);
 
   return (
     <div className="p-4 max-w-6xl mx-auto">
       <h1 className="text-2xl font-bold mb-6 text-center">
         Pessoas Desaparecidas ou Localizadas
       </h1>
+
+       {/* Estatísticas */}
+      {estatisticas && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+          <div className="bg-red-100 text-red-700 p-4 rounded-lg shadow text-center">
+            <p className="text-lg font-bold">Desaparecidos</p>
+            <p className="text-2xl font-extrabold">
+              {estatisticas.quantPessoasDesaparecidas}
+            </p>
+          </div>
+          <div className="bg-green-100 text-green-700 p-4 rounded-lg shadow text-center">
+            <p className="text-lg font-bold">Localizados</p>
+            <p className="text-2xl font-extrabold">
+              {estatisticas.quantPessoasEncontradas}
+            </p>
+          </div>
+        </div>
+      )}
 
       <div className="mb-6 flex justify-center">
         <SearchBar value={search} onChange={setSearch} />
