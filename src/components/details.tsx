@@ -192,6 +192,84 @@ const Details = () => {
                 </div>
               </CardContent>
             </Card>
+
+            {person.ultimaOcorrencia && (
+              <Card className="mt-6">
+                <CardHeader>
+                  <CardTitle className="text-lg">Detalhes da Ocorrência</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {person.ultimaOcorrencia.dtDesaparecimento && (
+                    <div className="flex items-start gap-2">
+                      <Calendar className="h-4 w-4 text-muted-foreground mt-0.5" />
+                      <div>
+                        <p className="text-sm font-medium">Data do Desaparecimento</p>
+                        <p className="text-sm text-muted-foreground">
+                          {new Date(person.ultimaOcorrencia.dtDesaparecimento).toLocaleDateString("pt-BR")}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {person.ultimaOcorrencia.dataLocalizacao && (
+                    <div className="flex items-start gap-2">
+                      <Calendar className="h-4 w-4 text-green-600 mt-0.5" />
+                      <div>
+                        <p className="text-sm font-medium">Data da Localização</p>
+                        <p className="text-sm text-muted-foreground">
+                          {new Date(person.ultimaOcorrencia.dataLocalizacao).toLocaleDateString("pt-BR")}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {person.ultimaOcorrencia.localDesaparecimentoConcat && (
+                    <div className="flex items-start gap-2">
+                      <MapPin className="h-4 w-4 text-muted-foreground mt-0.5" />
+                      <div>
+                        <p className="text-sm font-medium">Local do Desaparecimento</p>
+                        <p className="text-sm text-muted-foreground">
+                          {person.ultimaOcorrencia.localDesaparecimentoConcat}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {person.ultimaOcorrencia.ocorrenciaEntrevDesapDTO?.vestimentasDesaparecido && (
+                    <div className="flex items-start gap-2">
+                      <User className="h-4 w-4 text-muted-foreground mt-0.5" />
+                      <div>
+                        <p className="text-sm font-medium">Vestimentas</p>
+                        <p className="text-sm text-muted-foreground">
+                          {person.ultimaOcorrencia.ocorrenciaEntrevDesapDTO.vestimentasDesaparecido}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {person.ultimaOcorrencia.ocorrenciaEntrevDesapDTO?.informacao && (
+                    <div className="flex items-start gap-2">
+                      <AlertTriangle className="h-4 w-4 text-muted-foreground mt-0.5" />
+                      <div>
+                        <p className="text-sm font-medium">Informações Adicionais</p>
+                        <p className="text-sm text-muted-foreground">
+                          {person.ultimaOcorrencia.ocorrenciaEntrevDesapDTO.informacao}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="flex items-center gap-2 pt-2">
+                    <div
+                      className={`h-2 w-2 rounded-full ${person.ultimaOcorrencia.encontradoVivo ? "bg-green-500" : "bg-red-500"}`}
+                    />
+                    <span className="text-sm font-medium">
+                      Status: {person.ultimaOcorrencia.encontradoVivo ? "Encontrada Viva" : "Não Localizada"}
+                    </span>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </div>
 
           {/* Information and form */}

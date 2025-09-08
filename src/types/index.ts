@@ -1,4 +1,5 @@
 export interface Ocorrencia {
+  ocoId: number;
   dtDesaparecimento: string;
   dataLocalizacao: string | null;
   encontradoVivo: boolean;
@@ -6,18 +7,20 @@ export interface Ocorrencia {
   ocorrenciaEntrevDesapDTO: {
     informacao: string | null;
     vestimentasDesaparecido: string;
+    [key: string]: any; // para campos extras
   };
-  listaCartaz: any[]; // se houver detalhes dos cartazes, você pode tipar melhor
-  ocoId: number;
+  listaCartaz: any[];
+  [key: string]: any; // campos extras que a API retorna
 }
 
 export interface Person {
   id: number;
   nome: string;
-  urlFoto?: string; // a API retorna urlFoto, não 'foto'
+  urlFoto?: string;
   status: "Desaparecida" | "Localizada";
   idade?: number;
   sexo?: string;
   vivo?: boolean;
   ultimaOcorrencia?: Ocorrencia;
+  [key: string]: any; // campos extras da pessoa
 }
