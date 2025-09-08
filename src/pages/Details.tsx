@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
-import { useParams,useNavigate } from "react-router-dom";
-import { buscarPessoaPorId, enviarInformacao,buscarInformacoesDesaparecido } from "../services/api";
+import { useParams, useNavigate } from "react-router-dom";
+import {
+  buscarPessoaPorId,
+  enviarInformacao,
+  buscarInformacoesDesaparecido,
+} from "../services/api";
 import type { Person } from "../types";
 
 const Details = () => {
@@ -18,7 +22,13 @@ const Details = () => {
   const [enviando, setEnviando] = useState(false);
   const [erroEnvio, setErroEnvio] = useState<string | null>(null);
   const [sucessoEnvio, setSucessoEnvio] = useState<string | null>(null);
+
+  // Estado vivo/desaparecida
   const [vivo, setVivo] = useState("");
+
+  // Estado das informações adicionais da ocorrência
+  const [informacoes, setInformacoes] = useState<any[]>([]);
+
   useEffect(() => {
     if (!id) return;
 
@@ -28,8 +38,15 @@ const Details = () => {
       try {
         const res = await buscarPessoaPorId(id);
         setPerson(res.data);
-      setVivo(res.data.vivo ? "Localizada" : "Desaparecida"); 
-    
+        setVivo(res.data.vivo ? "Localizada" : "Desaparecida");
+
+        // Buscar informações adicionais da ocorrência
+        if (res.data?.ultimaOcorrencia?.ocoId) {
+          const infoRes = await buscarInformacoesDesaparecido(
+            res.data.ultimaOcorrencia.ocoId
+          );
+          setInformacoes(infoRes.data);
+        }
       } catch (err) {
         console.error(err);
         setError("Erro ao carregar detalhes da pessoa.");
@@ -68,6 +85,10 @@ const Details = () => {
       setDescricao("");
       setData(new Date().toISOString().split("T")[0]);
       setFoto(null);
+
+      // Recarregar lista de informações após envio
+      const infoRes = await buscarInformacoesDesaparecido(ocoId);
+      setInformacoes(infoRes.data);
     } catch (err) {
       console.error(err);
       setErroEnvio("Erro ao enviar informação.");
@@ -98,16 +119,57 @@ const Details = () => {
         />
       )}
 
-<p
-  className={`font-bold mb-2 px-2 py-1 inline-block rounded ${
-    vivo === "Desaparecida" ? "bg-red-100 text-red-600" : "bg-green-100 text-green-600"
-  }`}
->
-  {vivo}
-</p>
-<p className="mb-2">Idade: {person.idade ?? "N/A"}</p>
+      <p
+        className={`font-bold mb-2 px-2 py-1 inline-block rounded ${
+          vivo === "Desaparecida"
+            ? "bg-red-100 text-red-600"
+            : "bg-green-100 text-green-600"
+        }`}
+      >
+        {vivo}
+      </p>
+      <p className="mb-2">Idade: {person.idade ?? "N/A"}</p>
+      <p className="mb-2">Sexo: {person.sexo ?? "N/A"}</p>
 
-{person.sexo && <p>Sexo: {person.sexo ?? "N/A"}</p>}
+      {/* Lista de informações da ocorrência */}
+      <div className="mt-6 border-t pt-4">
+        <h2 className="text-xl font-bold mb-2">Informações registradas</h2>
+        {informacoes.length === 0 && (
+          <p className="text-gray-500">Nenhuma informação registrada ainda.</p>
+        )}
+        <ul className="space-y-3">
+          {informacoes.map((info) => (
+            <li
+              key={info.id}
+              className="border p-3 rounded bg-gray-50 shadow-sm"
+            >
+              <p className="text-gray-800">{info.informacao}</p>
+              <p className="text-sm text-gray-500">
+                Data: {new Date(info.data).toLocaleDateString("pt-BR")}
+              </p>
+              {info.anexos && info.anexos.length > 0 && (
+                <div className="mt-2">
+                  <p className="font-medium">Anexos:</p>
+                  <ul className="list-disc list-inside">
+                    {info.anexos.map((anexo: string, i: number) => (
+                      <li key={i}>
+                        <a
+                          href={anexo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline"
+                        >
+                          Ver anexo {i + 1}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
 
       {/* Formulário de envio de informações */}
       <div className="mt-6 border-t pt-4">

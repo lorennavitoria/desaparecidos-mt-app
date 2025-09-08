@@ -62,11 +62,6 @@ export const refreshToken = (refreshToken: string) =>
   );
 
 
-
-//USAR
-
-
-
   export const buscarInformacoesDesaparecido = (ocoId: number) =>
   api.get("/v1/ocorrencias/informacoes-desaparecido", {
     params: { ocorrenciaId: ocoId },
@@ -77,6 +72,8 @@ export const refreshToken = (refreshToken: string) =>
   api.get("/v1/pessoas/aberto/dinamico");
 
 
+//OS DOIS SERVIÇOS ABAIXO NÃO SERÁ IMPLEMENTADO, POIS DE ACORDO COM AS ORIENTAÇÕES DO PDF, NÃO TERÁ TELA DE ADICIONAR NOVOS REGISTROS, MAS APENAS ADICIONAR INFORMAÇÕES EXTRAS PARA AS OCORRENCIAS JÁ REGISTRADAS DENTRO DA API
+
 export const verificarDuplicidade = (payload: {
   nome: string;
   mae: string;
@@ -85,7 +82,6 @@ export const verificarDuplicidade = (payload: {
   dataDesaparecimento: string;
 }) =>
   api.post("/v1/ocorrencias/delegacia-digital/verificar-duplicidade", payload);
-
 
 
 export const criarOcorrenciaDelegaciaDigital = (payload: any) =>
