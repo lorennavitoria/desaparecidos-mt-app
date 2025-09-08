@@ -98,15 +98,25 @@ const FilterBar = ({ onSearch }: FilterBarProps) => {
           </SelectContent>
         </Select>
 
-        <div className="flex gap-2">
-          <Button onClick={handleSearch} className="flex-1">
-            <Filter className="h-4 w-4 mr-2" />
-            Filtrar
-          </Button>
-          <Button variant="outline" onClick={handleClear}>
-            <X className="h-4 w-4" />
-          </Button>
-        </div>
+       <div className="flex gap-2">
+  <Button 
+    onClick={handleSearch} 
+    className="flex-1 bg-blue-500 hover:bg-blue-600 text-white"
+  >
+    <Filter className="h-4 w-4 mr-2" />
+    Filtrar
+  </Button>
+  
+  <Button 
+    variant="outline" 
+    onClick={handleClear} 
+    className="border-gray-400 text-gray-700 hover:bg-gray-100"
+  >
+    <X className="h-4 w-4" />
+  </Button>
+</div>
+
+
       </div>
     </div>
   )

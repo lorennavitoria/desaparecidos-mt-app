@@ -195,11 +195,14 @@ const Home = () => {
                         )}
                         <div className="absolute top-2 right-2">
                           <Badge
-                            variant={person.status === "Desaparecida" ? "destructive" : "default"}
-                            className={person.status === "Desaparecida" ? "" : "bg-green-500 hover:bg-green-600"}
-                          >
-                            {person.status}
-                          </Badge>
+  variant="default"
+  className={person.status === "Desaparecida" 
+    ? "bg-red-500 text-white" 
+    : "bg-green-500 text-white hover:bg-green-600"}
+>
+  {person.status}
+</Badge>
+
                         </div>
                       </div>
                       <div className="p-4">
