@@ -16,9 +16,9 @@
       docker build -t desaparecidos-mt-app:latest .
 
    3. Rodar o container:
-   
+
       docker run -p 3000:80 desaparecidos-mt-app:latest
-   
+      
    4. Abra o navegador em:
    
       http://localhost:3000
