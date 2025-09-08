@@ -5,6 +5,7 @@
 - E-mail: lorennalovi@gmail.com
 
 ## Instalação e Execução
+
 1.Clone o repositório:
 
    git clone https://github.com/lorennavitoria/desaparecidos-mt-app.git
@@ -18,12 +19,14 @@
 
    docker run -p 3000:80 desaparecidos-mt-app:latest
 
-4. Abra o navegador em http://localhost:3000
+4. Abra o navegador em:
+
+   http://localhost:3000
 
 
 
 
-⚠️ Observação sobre o status de pessoas (Desaparecida / Localizada)
+⚠️ #Observação sobre o status de pessoas (Desaparecida / Localizada)
 
 O endpoint da API utilizado pelo sistema:
 https://abitus-api.geia.vip/v1/pessoas/aberto/filtro
