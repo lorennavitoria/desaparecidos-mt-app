@@ -30,7 +30,7 @@ const Home = () => {
     setLoading(true)
     setError(null)
     try {
-      const res = await buscarPessoasFiltro(filtrosAtual, page, 12)
+      const res = await buscarPessoasFiltro(filtrosAtual, page, 10)
       setPeople(res.data.content || res.data)
       setTotalPages(res.data.totalPages || 1)
     } catch (err: unknown) {
