@@ -4,7 +4,6 @@ const Header = () => {
   return (
     <header className="bg-card border-b border-border shadow-sm">
       <div className="container mx-auto px-4">
-        {/* Top bar with contact info */}
         <div className="flex flex-col sm:flex-row justify-between items-center py-2 text-sm text-muted-foreground border-b border-border">
           <div className="flex items-center gap-4 mb-2 sm:mb-0">
             <div className="flex items-center gap-1">
@@ -21,7 +20,6 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Main header */}
         <div className="flex flex-col lg:flex-row items-center justify-between py-4 gap-4">
           <div className="flex items-center gap-4">
             <div className="flex items-center justify-center w-16 h-16 bg-primary rounded-full">

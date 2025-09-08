@@ -73,7 +73,7 @@ const Home = () => {
     
     <div className="flex items-center gap-4 text-center lg:text-left">
       <img 
-        src="src/images/layout_set_logo.png" 
+        src="src/assets/images/layout_set_logo.png" 
         alt="Logo Polícia Judiciária Civil" 
         className="h-16 w-[220px] object-contain"
       />
@@ -83,7 +83,6 @@ const Home = () => {
       </div>
     </div>
 
-    {/* Right section */}
     <div className="text-center lg:text-right">
       <p className="text-lg font-semibold text-yellow-400 mb-1">DENUNCIE</p>
       <div className="text-xl font-bold">
@@ -99,7 +98,7 @@ const Home = () => {
       <main className="flex-1">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="space-y-8">
-            {/* Hero Section */}
+  
             <div className="text-center space-y-4">
               <h1 className="text-3xl lg:text-4xl font-bold text-foreground">Sistema de Pessoas Desaparecidas</h1>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
@@ -107,7 +106,7 @@ const Home = () => {
               </p>
             </div>
 
-            {/* Statistics Cards */}
+  
             {estatisticas && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
                 <Card className="border-l-4 border-l-destructive">
@@ -136,7 +135,7 @@ const Home = () => {
               </div>
             )}
 
-            {/* Search Section */}
+  
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center gap-2 mb-4">
@@ -147,14 +146,12 @@ const Home = () => {
               </CardContent>
             </Card>
 
-            {/* Loading State */}
+  
             {loading && (
               <div className="flex items-center justify-center py-12">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
               </div>
             )}
-
-            {/* Error State */}
             {error && (
               <Card className="border-destructive">
                 <CardContent className="p-6 text-center">
@@ -164,7 +161,7 @@ const Home = () => {
               </Card>
             )}
 
-            {/* People Grid */}
+
             {!loading && !error && (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {people.map((person) => (
@@ -208,7 +205,7 @@ const Home = () => {
               </div>
             )}
 
-            {/* Empty State */}
+
             {!loading && !error && people.length === 0 && (
               <Card>
                 <CardContent className="p-12 text-center">
@@ -220,8 +217,6 @@ const Home = () => {
                 </CardContent>
               </Card>
             )}
-
-            {/* Pagination */}
             {totalPages > 1 && (
               <div className="flex justify-center">
                 <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />

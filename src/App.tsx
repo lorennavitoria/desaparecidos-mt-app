@@ -18,7 +18,6 @@ function App() {
         </Suspense>
       </BrowserRouter>
 
-      {/* ToastContainer global */}
       <ToastContainer
         position="top-right"
         autoClose={3000}

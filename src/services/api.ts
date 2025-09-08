@@ -52,14 +52,13 @@ export const buscarEstatisticas = () =>
 export const enviarInformacao = async (
   ocoId: number,
   informacao: string,
-  data: string, // formato yyyy-MM-dd
+  data: string,
   descricao?: string,
   foto?: File
 ) => {
   const formData = new FormData();
   
-  if (foto) formData.append("files", foto); // arquivos enviados via multipart
-  // A API aceita descricao como query, mas você pode manter aqui se quiser
+  if (foto) formData.append("files", foto); 
   const params = new URLSearchParams();
   params.append("ocoId", ocoId.toString());
   params.append("informacao", informacao);
@@ -92,19 +91,3 @@ export const refreshToken = (refreshToken: string) =>
 
   export const buscarDadosDinamicos = () =>
   api.get("/v1/pessoas/aberto/dinamico");
-
-
-//OS DOIS SERVIÇOS ABAIXO NÃO SERÁ IMPLEMENTADO, POIS DE ACORDO COM AS ORIENTAÇÕES DO PDF, NÃO TERÁ TELA DE ADICIONAR NOVOS REGISTROS, MAS APENAS ADICIONAR INFORMAÇÕES EXTRAS PARA AS OCORRENCIAS JÁ REGISTRADAS DENTRO DA API
-
-export const verificarDuplicidade = (payload: {
-  nome: string;
-  mae: string;
-  cpf: string;
-  dataNascimento: string;
-  dataDesaparecimento: string;
-}) =>
-  api.post("/v1/ocorrencias/delegacia-digital/verificar-duplicidade", payload);
-
-
-export const criarOcorrenciaDelegaciaDigital = (payload: any) =>
-  api.post("/v1/ocorrencias/delegacia-digital", payload);

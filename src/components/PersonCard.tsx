@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import type { Person } from "../types";
-import { FaUserAlt } from "react-icons/fa"; // ícone para quem não tem foto
+import { FaUserAlt } from "react-icons/fa"; 
 
 interface PersonCardProps {
   person: Person;

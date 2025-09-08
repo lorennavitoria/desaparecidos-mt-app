@@ -33,7 +33,7 @@ const FilterBar = ({ onSearch }: FilterBarProps) => {
     setFaixaFinal("");
     setSexo("");
     setStatus("");
-    onSearch({}); // envia filtros vazios
+    onSearch({}); 
   };
 
 

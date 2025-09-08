@@ -7,10 +7,10 @@ export interface Ocorrencia {
   ocorrenciaEntrevDesapDTO: {
     informacao: string | null;
     vestimentasDesaparecido: string;
-    [key: string]: any; // para campos extras
+    [key: string]: any; 
   };
   listaCartaz: any[];
-  [key: string]: any; // campos extras que a API retorna
+  [key: string]: any; 
 }
 
 export interface Person {
@@ -22,5 +22,5 @@ export interface Person {
   sexo?: string;
   vivo?: boolean;
   ultimaOcorrencia?: Ocorrencia;
-  [key: string]: any; // campos extras da pessoa
+  [key: string]: any; 
 }

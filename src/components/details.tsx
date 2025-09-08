@@ -21,14 +21,12 @@ const Details = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  // Form states
   const [informacao, setInformacao] = useState("")
   const [data, setData] = useState(new Date().toISOString().split("T")[0])
   const [descricao, setDescricao] = useState("")
   const [foto, setFoto] = useState<File | null>(null)
   const [enviando, setEnviando] = useState(false)
 
-  // Additional information state
   const [informacoes, setInformacoes] = useState<any[]>([])
 
   useEffect(() => {
@@ -41,7 +39,7 @@ const Details = () => {
         const res = await buscarPessoaPorId(id)
         setPerson(res.data)
 
-        // Fetch additional occurrence information
+    
         if (res.data?.ultimaOcorrencia?.ocoId) {
           const infoRes = await buscarInformacoesDesaparecido(res.data.ultimaOcorrencia.ocoId)
           setInformacoes(infoRes.data)
@@ -86,7 +84,7 @@ const Details = () => {
       setData(new Date().toISOString().split("T")[0])
       setFoto(null)
 
-      // Reload information
+  
       try {
         const infoRes = await buscarInformacoesDesaparecido(ocoId)
         setInformacoes(infoRes.data)
@@ -140,15 +138,13 @@ const Details = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
       <div className="space-y-6">
-        {/* Back button */}
         <Button variant="outline" onClick={() => navigate("/")} className="mb-4">
           <ArrowLeft className="h-4 w-4 mr-2" />
           Voltar
         </Button>
 
-        {/* Person details */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Photo and basic info */}
+
           <div className="lg:col-span-1">
             <Card>
               <CardContent className="p-6">
@@ -272,9 +268,7 @@ const Details = () => {
             )}
           </div>
 
-          {/* Information and form */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Registered information */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -321,7 +315,7 @@ const Details = () => {
               </CardContent>
             </Card>
 
-            {/* Information form */}
+
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
