@@ -5,6 +5,9 @@ import { FaUserAlt } from "react-icons/fa"; // ícone para pessoas sem foto
 import Pagination from "../components/Pagination";
 import SearchBar from "../components/SearchBar";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const Home = () => {
   const [people, setPeople] = useState<Person[]>([]);
@@ -29,9 +32,11 @@ const Home = () => {
       const res = await buscarPessoasFiltro(filtros, page, 10);
       setPeople(res.data.content || res.data);
       setTotalPages(res.data.totalPages || 1);
-    } catch (err) {
+    } catch (err: unknown) {
       console.error(err);
-      setError("Erro ao carregar pessoas.");
+      const msg = "Erro ao carregar pessoas.";
+    setError(msg);
+    toast.error(msg);
     } finally {
       setLoading(false);
     }
@@ -41,9 +46,10 @@ const Home = () => {
     try {
       const res = await buscarEstatisticas();
       setEstatisticas(res.data);
-    } catch (err) {
-      console.error("Erro ao buscar estatísticas", err);
-    }
+     } catch (err: unknown) {
+    console.error("Erro ao buscar estatísticas", err);
+    toast.error("Erro ao carregar estatísticas.");
+  }
   };
 
   useEffect(() => {

@@ -1,8 +1,30 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const api = axios.create({
   baseURL: "https://abitus-api.geia.vip",
 });
+
+
+api.interceptors.response.use(
+  (res) => res,
+  (error) => {
+    const status = error?.response?.status;
+
+    if (status === 401) {
+      toast.error("Sessão expirada. Faça login novamente.");
+    } else if (status === 404) {
+      toast.warning("Registro não encontrado.");
+    } else if (status >= 500) {
+      toast.error("Erro no servidor. Tente novamente mais tarde.");
+    } else {
+      toast.error("Ocorreu um erro inesperado.");
+    }
+
+    return Promise.reject(error);
+  }
+);
+
 
 export const buscarPessoasFiltro = (filtros: any = {}, pagina: number = 0, porPagina: number = 10) =>
   api.get("/v1/pessoas/aberto/filtro", {

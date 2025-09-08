@@ -6,6 +6,9 @@ import {
   buscarInformacoesDesaparecido,
 } from "../services/api";
 import type { Person } from "../types";
+import axios from "axios";
+import { toast } from "react-toastify";
+
 
 const Details = () => {
   const { id } = useParams<{ id: string }>();
@@ -47,10 +50,20 @@ const Details = () => {
           );
           setInformacoes(infoRes.data);
         }
-      } catch (err) {
-        console.error(err);
-        setError("Erro ao carregar detalhes da pessoa.");
-      } finally {
+      } catch (err: unknown) {
+  console.error(err);
+
+  if (axios.isAxiosError(err)) {
+    // err é do tipo AxiosError aqui
+    const msg = err.response?.data?.message || "Erro ao carregar detalhes da pessoa.";
+    setError(msg);
+    toast.error(msg);
+  } else {
+    // erro genérico não Axios
+    setError("Erro ao carregar detalhes da pessoa.");
+    toast.error("Erro ao carregar detalhes da pessoa.");
+  }
+} finally {
         setLoading(false);
       }
     };
@@ -62,7 +75,10 @@ const Details = () => {
     if (!person || !person.ultimaOcorrencia) return;
 
     if (!informacao || !data || !descricao) {
-      setErroEnvio("Preencha todos os campos obrigatórios.");
+    const msg = "Preencha todos os campos obrigatórios.";
+    setErroEnvio(msg);
+    toast.warning(msg);
+
       return;
     }
 
@@ -81,21 +97,34 @@ const Details = () => {
         foto || undefined
       );
       setSucessoEnvio("Informação enviada com sucesso!");
+        toast.success("Informação enviada com sucesso!");
       setInformacao("");
       setDescricao("");
       setData(new Date().toISOString().split("T")[0]);
       setFoto(null);
 
-      // Recarregar lista de informações após envio
+       // Recarregar informações
+    try {
       const infoRes = await buscarInformacoesDesaparecido(ocoId);
       setInformacoes(infoRes.data);
-    } catch (err) {
-      console.error(err);
-      setErroEnvio("Erro ao enviar informação.");
-    } finally {
-      setEnviando(false);
+    } catch (fetchErr) {
+      console.error(fetchErr);
+      toast.error("Não foi possível atualizar a lista de informações.");
     }
-  };
+  }catch (err: unknown) {
+    console.error(err);
+    if (axios.isAxiosError(err)) {
+      const msg = err.response?.data?.message || "Erro ao enviar informação.";
+      setErroEnvio(msg);
+      toast.error(msg);
+    } else {
+      setErroEnvio("Erro ao enviar informação.");
+      toast.error("Erro ao enviar informação.");
+    }
+  } finally {
+    setEnviando(false);
+  }
+};
 
   if (loading) return <div>Carregando...</div>;
   if (error) return <div className="text-red-500">{error}</div>;
