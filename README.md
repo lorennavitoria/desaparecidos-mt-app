@@ -6,22 +6,22 @@
 
 ## Instalação e Execução
 
-1.Clone o repositório:
-
-   git clone https://github.com/lorennavitoria/desaparecidos-mt-app.git
-   cd desaparecidos-mt-app
+   1.Clone o repositório:
    
-2.Build da imagem Docker:
+      git clone https://github.com/lorennavitoria/desaparecidos-mt-app.git
+      cd desaparecidos-mt-app
+      
+   2.Build da imagem Docker:
+   
+      docker build -t desaparecidos-mt-app:latest .
 
-   docker build -t desaparecidos-mt-app:latest .
-
-3. Rodar o container:
-
-   docker run -p 3000:80 desaparecidos-mt-app:latest
-
-4. Abra o navegador em:
-
-   http://localhost:3000
+   3. Rodar o container:
+   
+      docker run -p 3000:80 desaparecidos-mt-app:latest
+   
+   4. Abra o navegador em:
+   
+      http://localhost:3000
 
 
 
