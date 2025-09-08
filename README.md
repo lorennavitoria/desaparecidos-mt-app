@@ -6,22 +6,26 @@
 
 ## Instalação e Execução
 
-   1.Clone o repositório:
-   
-      git clone https://github.com/lorennavitoria/desaparecidos-mt-app.git
-      cd desaparecidos-mt-app
-      
-   2.Build da imagem Docker:
-   
-      docker build -t desaparecidos-mt-app:latest .
+1. Clone o repositório:
 
-   3. Rodar o container:
+         git clone https://github.com/lorennavitoria/desaparecidos-mt-app.git
 
-      docker run -p 3000:80 desaparecidos-mt-app:latest
-      
-   4. Abra o navegador em:
-   
-      http://localhost:3000
+2. Entre dentro da pasta:
+
+         cd desaparecidos-mt-app
+
+3. Build da imagem Docker:
+
+         docker build -t desaparecidos-mt-app:latest .
+
+4. Rodar o container:
+
+         docker run -p 3000:80 desaparecidos-mt-app:latest
+
+5. Abra o navegador em:
+
+         http://localhost:3000
+
 
 
 
@@ -44,4 +48,3 @@ Se o campo ultimaOcorrencia.dataLocalizacao estiver preenchido → a pessoa é t
 Caso contrário → tratada como Desaparecida ❌
 
 Essa solução não garante 100% de precisão, mas permite que o frontend exiba o status mesmo sem a informação explícita no objeto de resposta da API.
-
