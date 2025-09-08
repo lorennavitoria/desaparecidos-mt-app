@@ -5,7 +5,7 @@
 - E-mail: lorennalovi@gmail.com
 
 ## Instalação e Execução
-1. Clone o repositório:
+1.Clone o repositório:
 
    git clone https://github.com/lorennavitoria/desaparecidos-mt-app.git
    cd desaparecidos-mt-app
@@ -19,6 +19,8 @@
    docker run -p 3000:80 desaparecidos-mt-app:latest
 
 4. Abra o navegador em http://localhost:3000
+
+
 
 
 ⚠️ Observação sobre o status de pessoas (Desaparecida / Localizada)
