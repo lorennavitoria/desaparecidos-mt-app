@@ -1,6 +1,57 @@
-# PROJETO PRÁTICO – IMPLEMENTAÇÃO FRONT-END
+# Sistema de Pessoas Desaparecidas - MT
 
-⚠️ Observação sobre o status de pessoas (Desaparecida / Localizada)
+## Dados do Desenvolvedor
+- Nome: Lorenna Vitória de Souza e Silva
+- E-mail: lorennalovi@gmail.com
+
+## Instalação e Execução
+
+1. Clone o repositório:
+
+         git clone https://github.com/lorennavitoria/desaparecidos-mt-app.git
+
+2. Entre dentro da pasta:
+
+         cd desaparecidos-mt-app
+
+3. Build da imagem Docker:
+
+         docker build -t desaparecidos-mt-app:latest .
+
+4. Rodar o container:
+
+         docker run -p 3000:80 desaparecidos-mt-app:latest
+
+5. Abra o navegador em:
+
+         http://localhost:3000
+
+
+
+### Dependências de Produção
+
+- @radix-ui/react-select
+- @radix-ui/react-separator
+- @tailwindcss/vite
+- axios
+- class-variance-authority
+- clsx
+- lucide-react
+- react
+- react-dom
+- react-icons
+- react-input-mask
+- react-router-dom
+- react-toastify
+- sonner
+- tailwind-merge
+- tailwindcss-animate
+
+
+
+
+
+### ⚠️Observação sobre o status de pessoas (Desaparecida / Localizada)
 
 O endpoint da API utilizado pelo sistema:
 https://abitus-api.geia.vip/v1/pessoas/aberto/filtro
@@ -18,4 +69,3 @@ Se o campo ultimaOcorrencia.dataLocalizacao estiver preenchido → a pessoa é t
 Caso contrário → tratada como Desaparecida ❌
 
 Essa solução não garante 100% de precisão, mas permite que o frontend exiba o status mesmo sem a informação explícita no objeto de resposta da API.
-
